@@ -1,16 +1,17 @@
-/* 
-Diameter is defined as the longest span of nodes that are continously connected
-Here max_h is the max height of the tree after the function has finished its execution
-Intially pass max_h = 0
-*/
-
-void diameter(Node *root, int *max_h) {
-    if(root == NULL) return;
-    int a = height(root->left);
-    int b = height(root->right);
-    if(a+b+1 > *max_h) {
-        *max_h = a+b+1;
+int dia(Node *root) {
+    if(root == NULL) {
+        return 0;
     }
-    diameter(root->left, max_h);
-    diameter(root->right, max_h);
+    int lh = height(root->left);
+    int rh = height(root->right);
+
+    return max(1 + lh + rh, max(dia(root->left), dia(root->right)));
 }
+
+/* This can be broken in 3 parts:
+    1. Length of path passing through the current node 1 + lh + rh
+    2. Diamter of the left subtree
+    3. Diamter of right subtree
+    
+    The max out of these is the required answer
+    */
